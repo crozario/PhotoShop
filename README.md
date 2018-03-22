@@ -1,11 +1,11 @@
 # PhotoShop
 
-##Bash Commands
+## Bash Commands
 login to mysql: mysql -u <Username> -p
 afs login: ssh -l <USERNAME> afs8.njit.edu
 
-##Dependencies 
+## Dependencies 
 
-###MYSQL
-[mysqlclient]: https://github.com/PyMySQL/mysqlclient-python
+### MySQL
+[mysqlclient library repo](https://github.com/PyMySQL/mysqlclient-python)
 pip3 install mysqlclient

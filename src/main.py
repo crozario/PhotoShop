@@ -1,22 +1,25 @@
 import MySQLdb as mdb
 import sys
 
-db = mdb.connect(host="localhost",user="testuser",passwd="password",db="test")
-cursor = db.cursor()
 
-cursor.execute("SELECT VERSION()")
+HOST="localhost"
+USER="testuser"
+PASSWORD="password"
+DATABASE="test"
 
-data = cursor.fetchone()
-print("Version: ", data)
+try: 
+	db = mdb.connect(host=HOST,user=USER,passwd=PASSWORD,db=DATABASE)
+	cursor = db.cursor()
 
-sql = """CREATE TABLE Person(
-         FIRSTNAME  CHAR(20) NOT NULL,
-         LASTNAME  CHAR(20),
-         AGE INT,  
-         SEX CHAR(1))"""
+	cursor.execute("SELECT VERSION()")
 
-cursor.execute(sql)
+	data = cursor.fetchone()
+	print("Version: ", data)
 
-db.close()
+except Exception as e:
+    print(e)
+
+finally:
+    db.close()
 
     

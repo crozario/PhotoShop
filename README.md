@@ -5,7 +5,7 @@
 ```bash
 
 # MySQL Login
-$ mysql -u <Username> -p
+$ mysql -u <USERNAME> -p
 
 # AFS Login
 $ ssh -l <USERNAME> afs8.njit.edu

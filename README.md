@@ -13,14 +13,17 @@ $ ssh -l <USERNAME> afs8.njit.edu
 
 ### Dependencies 
 
-[MySQL Library for Python Repo](https://github.com/PyMySQL/mysqlclient-python)
+MySQLConnector for Python
 
-```bash
-# MySQL Library for Python
-$ pip3 install mysqlclient
-```
+### MySQL Database Setup
 
-### MySQL
+create an "config.ini" file which includes:
+
+[mysql]
+host = HOSTNAME
+database = DATABASENAME
+user = USERNAME
+password = PASSWORD
 
 **Tables**
 

@@ -1,58 +1,23 @@
 import MySQLdb as mdb
 import sys
 
-def setupPhotoShopDatabase():
-	HOST="localhost"
-	USER="root"
-	PASSWORD="Halo2014"
-	
-	try: 
-		db = mdb.connect(host=HOST,user=USER,password=PASSWORD)
-		cursor = db.cursor()
-		query = "SELECT VERSION()"
-		cursor.execute(query)
-		data = cursor.fetchone()
-		print("Version: ", data)
+def setupPhotoShopDatabase(cursor):
+	createTables(cursor)
 
-		# createPhotoshopDatabase(cursor)
-
-		query = """SELECT DATABASE();"""
-		cursor.execute(query)
-		response = cursor.fetchone()
-		print(response)
+def createTables(cursor):
+	createPhotoTable(cursor)
+	createLandScapeTable(cursor)
+	createLocationTable(cursor)
+	createAbstractTable(cursor)
+	createModelsTable(cursor)
+	createModelTable(cursor)
+	createPhotographerTable(cursor)
+	createInfuencesTable(cursor)
+	createTransactionTable(cursor)
+	createCustomerTable(cursor)
 
 
-
-
-	except Exception as e:
-		print(e)
-
-	finally:
-		db.close()
-
-
-def createPhotoshopDatabase(cursor):
-	query = """create database IF NOT EXIST PhotoShop;"""
-	cursor.execute(query)
-	response = cursor.fetchone()
-
-	return response 
-
-
-def createTables():
-	createPhotoTable()
-	createLandScapeTable()
-	createLocationTable()
-	createAbstractTable()
-	createModelsTable()
-	createModelTable()
-	createPhotographerTable()
-	createInfuencesTable()
-	createTransactionTable()
-	createCustomerTable()
-
-
-def createPhotoTable():
+def createPhotoTable(cursor):
 	query = """CREATE TABLE IF NOT EXIST Photo( )
 	"""
 	cursor.execute(query)
@@ -60,32 +25,32 @@ def createPhotoTable():
 	
 	return response 
 
-def createLandScapeTable():
+def createLandScapeTable(cursor):
 	pass
 
 
-def createLocationTable():
+def createLocationTable(cursor):
 	pass
 
-def createAbstractTable():
+def createAbstractTable(cursor):
 	pass
 
-def createModelsTable():
+def createModelsTable(cursor):
 	pass
 
-def createModelTable():
+def createModelTable(cursor):
 	pass
 
-def createPhotographerTable():
+def createPhotographerTable(cursor):
 	pass
 
-def createInfuencesTable():
+def createInfuencesTable(cursor):
 	pass
 
-def createTransactionTable():
+def createTransactionTable(cursor):
 	pass
 
-def createCustomerTable():
+def createCustomerTable(cursor):
 	pass
 
 

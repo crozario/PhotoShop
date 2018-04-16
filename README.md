@@ -20,9 +20,13 @@ MySQLConnector for Python
 create an "config.ini" file which includes:
 
 [mysql]
+
 host = HOSTNAME
+
 database = DATABASENAME
+
 user = USERNAME
+
 password = PASSWORD
 
 **Tables**

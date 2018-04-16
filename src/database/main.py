@@ -24,6 +24,7 @@ def SetupDatabase():
         
         cursor = conn.cursor()
         setupPhotoShopDatabase(cursor)
+        print("Created PhotoShop Database")
 
 
     except Error as error:

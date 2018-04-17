@@ -3,7 +3,7 @@ import sys
 
 def setupPhotoShopDatabase(cursor):
 	createTables(cursor)
-	print("Created Tables")
+	print("Created PhotoShop Tables")
 
 	createConstraints(cursor)
 	print("Created Constraints")
@@ -22,38 +22,37 @@ def createTables(cursor):
 
 
 def createPhotoTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Photo` (
+	query = """CREATE TABLE IF NOT EXISTS `Photo` (
 		`PhotoID` INT UNSIGNED AUTO_INCREMENT,
   		`Speed` VARCHAR(45) NULL,
   		`Film` VARCHAR(45) NULL,
   		`F-Stop` VARCHAR(12) NULL,
-  		`Color/B&W` ENUM('Color', 'B&W') NULL,
+  		`Color/B&W` VARCHAR(10) NULL,
 		`Resolution` VARCHAR(25) NULL,
   		`Price` FLOAT UNSIGNED,
   		`Date` DATE NULL,
   		`TransID` INT UNSIGNED NULL,
-		`PName` VARCHAR(25) NULL,
-		`PBDate` DATE NULL,
-  		PRIMARY KEY (`PhotoID`),
+		`PName` VARCHAR(25) NOT NULL,
+		`PBDate` DATE NOT NULL,
+  		PRIMARY KEY (`PhotoID`)
 	)
 	ENGINE=InnoDB;
 	"""
 	cursor.execute(query)
 
 def createLandScapeTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Landscape` (
+	query = """CREATE TABLE IF NOT EXISTS `Landscape` (
 		`PhotoID` INT UNSIGNED,
 		`Place` VARCHAR(45) NULL,
 		`Country` VARCHAR(45) NULL,
 		PRIMARY KEY (`PhotoID`)
-
-	)
+	) 
 	ENGINE=InnoDB;
 	"""
 	cursor.execute(query)
 
 def createLocationTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Location` (
+	query = """CREATE TABLE IF NOT EXISTS `Location` (
 		`Place` VARCHAR(45),
   		`Country` VARCHAR(45),
   		`Description` TEXT NULL,
@@ -64,17 +63,17 @@ def createLocationTable(cursor):
 	cursor.execute(query)
 
 def createAbstractTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Abstract` (
+	query = """CREATE TABLE IF NOT EXISTS `Abstract` (
 		`PhotoID` INT UNSIGNED,
 		`Comment` Text NULL,
-		PRIMARY KEY (PhotoID)
+		PRIMARY KEY (`PhotoID`)
 	)
 	ENGINE=InnoDB;
 	"""
 	cursor.execute(query)
 
 def createModelsTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Models` (
+	query = """CREATE TABLE IF NOT EXISTS `Models` (
 		`PhotoID` INT UNSIGNED,
 		`MName` VARCHAR(25),
 		`MBDate` DATE,
@@ -87,7 +86,7 @@ def createModelsTable(cursor):
 	cursor.execute(query)
 
 def createModelTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Model` (
+	query = """CREATE TABLE IF NOT EXISTS `Model` (
 		`MName` VARCHAR(25) NOT NULL,
   		`MBDate` DATE NOT NULL,
 		`MBio` TEXT NULL,
@@ -99,7 +98,7 @@ def createModelTable(cursor):
 	cursor.execute(query)
 
 def createPhotographerTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Photographer` (
+	query = """CREATE TABLE IF NOT EXISTS `Photographer` (
 		`PName` VARCHAR(25),
   		`PBDate` DATE,
   		`PBio` TEXT NULL,
@@ -112,20 +111,20 @@ def createPhotographerTable(cursor):
 	cursor.execute(query)
 
 def createInfuencesTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Influences` (
+	query = """CREATE TABLE IF NOT EXISTS `Influences` (
 		`EPName` VARCHAR(25),
   		`EPBDate` DATE,
 		`RPName` VARCHAR(25),
   		`RPBDate` DATE,
-  		PRIMARY KEY (`EPName`, `EPBDate`, `RPName`, `RPBDate`))
+  		PRIMARY KEY (`EPName`, `EPBDate`, `RPName`, `RPBDate`)
 	)
 	ENGINE=InnoDB;
 	"""
 	cursor.execute(query)
 
 def createTransactionTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Transaction` (
-		`TransID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	query = """CREATE TABLE IF NOT EXISTS `Transaction` (
+		`TransID` INT UNSIGNED AUTO_INCREMENT,
   		`TDate` DATE NOT NULL,
   		`CardNo` INT UNSIGNED NOT NULL,
  		`CardType` VARCHAR(25) NOT NULL,
@@ -139,7 +138,7 @@ def createTransactionTable(cursor):
 	cursor.execute(query)
 
 def createCustomerTable(cursor):
-	query = """CREATE TABLE IF NOT EXIST `Customer` (
+	query = """CREATE TABLE IF NOT EXISTS `Customer` (
 		`LoginName` VARCHAR(25) NOT NULL,
   		`Password` VARCHAR(25) NOT NULL,
   		`CName` VARCHAR(25) NOT NULL,

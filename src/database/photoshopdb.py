@@ -154,23 +154,74 @@ def createCustomerTable(cursor):
 	ENGINE=InnoDB;
 	"""
 	cursor.execute(query)
-
-
+	
 def createConstraints(cursor):
+	# createPhotoConstraints(cursor) #WORKING
+	# createLocationConstraints(cursor)
+	# createModelConstraints(cursor)
+	# createPhotographerConstraints(cursor)
+	# createTransactionConstraints(cursor)
+	# createCustomerConstraints(cursor)
+
+def createPhotoConstraints(cursor):
 	query = """
+		ALTER TABLE Photo
+		ADD CONSTRAINT FK_PhotoID_Landscape FOREIGN KEY (PhotoID) REFERENCES Landscape(PhotoID) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_PhotoID_Abstract FOREIGN KEY (PhotoID) REFERENCES Abstract(PhotoID) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_PhotoID_Models FOREIGN KEY (PhotoID) REFERENCES Models(PhotoID) ON DELETE CASCADE ON UPDATE CASCADE;
+	"""
+
+	cursor.execute(query)
+
+def createLocationConstraints(cursor):
+	query = """
+		ALTER TABLE Location
+		ADD CONSTRAINT FK_Place_Landscape FOREIGN KEY (Place) REFERENCES Landscape(PhotoID) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_Country_Landscape FOREIGN KEY (Country) REFERENCES Landscape(Country) ON DELETE CASCADE ON UPDATE CASCADE;
+	"""
+
+	cursor.execute(query)
+
+def createModelConstraints(cursor):
+	query = """
+		ALTER TABLE Model
+		ADD CONSTRAINT FK_MName_Models FOREIGN KEY (MName) REFERENCES Models(MName) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_MBDate_Models FOREIGN KEY (MBDate) REFERENCES Models(MBDate) ON DELETE CASCADE ON UPDATE CASCADE;
+	"""
+
+	cursor.execute(query)
 
 
-	)
-	ENGINE=InnoDB;
+def createPhotographerConstraints(cursor):
+	query = """
+		ALTER TABLE Photographer
+		ADD CONSTRAINT FK_PName_Photo FOREIGN KEY (PName) REFERENCES Photo(PName) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_PBDate_Photo FOREIGN KEY (PBDate) REFERENCES Photo(PBDate) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_EPName_Influences FOREIGN KEY (PName) REFERENCES Influences(EPName) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_EPBDate_Influences FOREIGN KEY (PBDate) REFERENCES Influences(EPBDate) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_RPName_Influences FOREIGN KEY (PName) REFERENCES Influences(RPName) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_RPBDate_Influences FOREIGN KEY (PBDate) REFERENCES Influences(RPBDate) ON DELETE CASCADE ON UPDATE CASCADE;
+
+	"""
+	
+	cursor.execute(query)
+
+
+def createTransactionConstraints(cursor):
+	query = """
+		ALTER TABLE Transaction
+		ADD CONSTRAINT FK_TransID_Photo FOREIGN KEY (TransID) REFERENCES Photo(TransID) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
 	cursor.execute(query)
 
 
 
-
-
-
-
+def createCustomerConstraints(cursor):
+	query = """
+		ALTER TABLE Customer
+		ADD CONSTRAINT FK_LoginName_Transaction FOREIGN KEY (LoginName) REFERENCES Transaction(LoginName) ON DELETE CASCADE ON UPDATE CASCADE;
+	"""
+	cursor.execute(query)
 
 
 

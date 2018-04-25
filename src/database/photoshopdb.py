@@ -31,9 +31,9 @@ def createPhotoTable(cursor):
 		`Resolution` VARCHAR(25) NULL,
   		`Price` FLOAT UNSIGNED,
   		`Date` DATE NULL,
-  		`TransID` INT UNSIGNED NULL,
-		`PName` VARCHAR(25) NOT NULL,
-		`PBDate` DATE NOT NULL,
+  		`TransID` INT UNSIGNED NOT NULL UNIQUE,
+		`PName` VARCHAR(25) NOT NULL UNIQUE,
+		`PBDate` DATE NOT NULL UNIQUE,
   		PRIMARY KEY (`PhotoID`)
 	)
 	ENGINE=InnoDB;
@@ -43,8 +43,8 @@ def createPhotoTable(cursor):
 def createLandScapeTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Landscape` (
 		`PhotoID` INT UNSIGNED,
-		`Place` VARCHAR(45) NULL,
-		`Country` VARCHAR(45) NULL,
+		`Place` VARCHAR(45) NULL UNIQUE,
+		`Country` VARCHAR(45) NULL UNIQUE,
 		PRIMARY KEY (`PhotoID`)
 	) 
 	ENGINE=InnoDB;
@@ -75,8 +75,8 @@ def createAbstractTable(cursor):
 def createModelsTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Models` (
 		`PhotoID` INT UNSIGNED,
-		`MName` VARCHAR(25),
-		`MBDate` DATE,
+		`MName` VARCHAR(25) UNIQUE,
+		`MBDate` DATE UNIQUE,
 		`Agency` VARCHAR(45) NULL,
 		PRIMARY KEY (`PhotoID`, `MName`, `MBDate`)
 	)
@@ -87,8 +87,8 @@ def createModelsTable(cursor):
 
 def createModelTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Model` (
-		`MName` VARCHAR(25) NOT NULL,
-  		`MBDate` DATE NOT NULL,
+		`MName` VARCHAR(25),
+  		`MBDate` DATE,
 		`MBio` TEXT NULL,
   		`MSex` CHAR(1) NULL,
   		PRIMARY KEY (`MName`, `MBDate`)
@@ -112,10 +112,10 @@ def createPhotographerTable(cursor):
 
 def createInfuencesTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Influences` (
-		`EPName` VARCHAR(25),
-  		`EPBDate` DATE,
-		`RPName` VARCHAR(25),
-  		`RPBDate` DATE,
+		`EPName` VARCHAR(25) UNIQUE,
+  		`EPBDate` DATE UNIQUE,
+		`RPName` VARCHAR(25) UNIQUE,
+  		`RPBDate` DATE UNIQUE,
   		PRIMARY KEY (`EPName`, `EPBDate`, `RPName`, `RPBDate`)
 	)
 	ENGINE=InnoDB;
@@ -130,7 +130,7 @@ def createTransactionTable(cursor):
  		`CardType` VARCHAR(25) NOT NULL,
   		`CardExpDate` DATE NOT NULL,
   		`TotalAmount` INT UNSIGNED NOT NULL,
-  		`LoginName` VARCHAR(25) NOT NULL,
+  		`LoginName` VARCHAR(25) NOT NULL UNIQUE,
   		PRIMARY KEY (`TransID`)
 	)
 	ENGINE=InnoDB;
@@ -156,12 +156,12 @@ def createCustomerTable(cursor):
 	cursor.execute(query)
 	
 def createConstraints(cursor):
-	# createPhotoConstraints(cursor) #WORKING
-	# createLocationConstraints(cursor)
-	# createModelConstraints(cursor)
-	# createPhotographerConstraints(cursor)
-	# createTransactionConstraints(cursor)
-	# createCustomerConstraints(cursor)
+	createPhotoConstraints(cursor) 
+	createLocationConstraints(cursor) 
+	createModelConstraints(cursor) 
+	createPhotographerConstraints(cursor)
+	createTransactionConstraints(cursor) 
+	createCustomerConstraints(cursor) 
 
 def createPhotoConstraints(cursor):
 	query = """
@@ -176,7 +176,7 @@ def createPhotoConstraints(cursor):
 def createLocationConstraints(cursor):
 	query = """
 		ALTER TABLE Location
-		ADD CONSTRAINT FK_Place_Landscape FOREIGN KEY (Place) REFERENCES Landscape(PhotoID) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_Place_Landscape FOREIGN KEY (Place) REFERENCES Landscape(Place) ON DELETE CASCADE ON UPDATE CASCADE,
 		ADD CONSTRAINT FK_Country_Landscape FOREIGN KEY (Country) REFERENCES Landscape(Country) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
 

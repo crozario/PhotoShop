@@ -1,15 +1,6 @@
 from mysql.connector import Error, MySQLConnection
-from dbconfigparser import read_db_config
-from photoshopdb import setupPhotoShopDatabase
-
-def iter_row(cursor, size=10):
-    while True:
-        rows = cursor.fetchmany(size)
-        if not rows:
-            break
-        for row in rows:
-            yield row
-
+from database_config_parser import read_db_config
+from photoshop_database import setupPhotoShopDatabase
 
 def SetupDatabase():
 

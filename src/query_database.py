@@ -1,5 +1,5 @@
 from mysql.connector import Error, MySQLConnection
-from dbconfigparser import read_db_config
+from database_config_parser import read_db_config
 
 def iter_row(cursor, size=10):
     while True:

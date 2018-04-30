@@ -38,12 +38,12 @@ def main_menu():
 
 def main():
 
-    conn = qd.connect_to_database()
+    # conn = qd.connect_to_database()
 
     while not quit:
         main_menu()
 
-    qd.disconnect_from_database(conn)
+    # qd.disconnect_from_database(conn)
           
 if __name__ == "__main__":
     main()

@@ -18,6 +18,8 @@ def connect_to_database():
 
         if not conn.is_connected():
             print("Database connection failed")
+        else:
+            print("Connected to Database")
 
     except Error as error:
         print(error)

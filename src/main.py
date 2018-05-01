@@ -117,6 +117,7 @@ def menu():
 
             while not quit or not stdin == compute_sales_menu.go_back:
                 compute_sales_menu.print_menu()
+                
         elif stdin == main_menu.quit_application.num:
             quit = True
         else:

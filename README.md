@@ -15,6 +15,11 @@ $ ssh -l <USERNAME> afs8.njit.edu
 
 MySQLConnector for Python
 
+```bash
+# Install python mysql connector
+$ pip3 mysql-connector-python
+```
+
 ### MySQL Database Setup
 
 create an "config.ini" file which includes:

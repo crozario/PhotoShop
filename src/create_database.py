@@ -224,38 +224,29 @@ def createCustomerConstraints(cursor):
 	cursor.execute(query)
 
 
-
-
-
-
-
-
-
-
-
-
 def SetupDatabase():
 
-    try:
-        db_config = read_db_config()
-        conn = MySQLConnection(**db_config)
+	try:
+		#windows/mac/linux
+		conn = MySQLConnection(user='root', password='password', host='localhost', database='test')
 
-        if conn.is_connected():
-            print("Database Connection Success")
-        else:
-            print("Database Connection Failed")
-        
-        cursor = conn.cursor()
-        setupPhotoShopDatabase(cursor)
-        print("Created PhotoShop Database")
+		#mac/linux
+		# db_config = read_db_config()
+        # conn = MySQLConnection(**db_config)
 
-
-    except Error as error:
-        print(error)
- 
-    finally:
-        cursor.close()
-        conn.close()
+		if conn.is_connected:
+			print("Database Connection Success")
+		else:
+			print("Database Connection Failed")
+		
+		cursor = conn.cursor()
+		setupPhotoShopDatabase(cursor)
+		print("Created PhotoShop Database")
+	except Error as error:
+		print(error)
+	finally:
+		cursor.close()
+		conn.close()
 
 def main():
     SetupDatabase()

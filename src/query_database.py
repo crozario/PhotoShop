@@ -13,8 +13,13 @@ def iter_row(cursor, size=10):
 def connect_to_database():
 
     try:
-        db_config = read_db_config()
-        conn = MySQLConnection(**db_config)
+        #windows/mac/linux
+        conn = MySQLConnection(user='root', password='Halo2014', host='localhost', database='test')
+
+		#mac/linux
+        # db_config = read_db_config()
+        # conn = MySQLConnection(**db_config)
+
 
         if not conn.is_connected():
             print("Database connection failed")

@@ -114,10 +114,30 @@ def menu():
             compute_sales_menu.print_menu()
 
             stdin = get_input()
+            print(stdin)
 
-            while not quit or not stdin == compute_sales_menu.go_back:
-                compute_sales_menu.print_menu()
-                
+            if compute_sales_menu.go_back.num == stdin:
+                continue
+            elif compute_sales_menu.quit_application.num == stdin:
+                quit = True
+
+            while quit == False:
+                compute_sales_menu.print_menu()           
+                stdin = get_input()
+
+                if compute_sales_menu.list_total_sales_per_customer.num == stdin:
+                    pass
+                elif compute_sales_menu.list_total_sales_per_photographer.num == stdin:
+                    pass
+                elif compute_sales_menu.list_total_sales_by_photo_type.num == stdin:
+                    pass
+                elif compute_sales_menu.go_back.num == stdin:
+                    break
+                elif compute_sales_menu.quit_application.num == stdin:
+                    quit = True
+                else:
+                    continue
+
         elif stdin == main_menu.quit_application.num:
             quit = True
         else:

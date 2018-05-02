@@ -1,65 +1,71 @@
 from mysql.connector import Error, MySQLConnection
 from database_config_parser import read_db_config
 
-def setupPhotoShopDatabase(cursor):
-	createTables(cursor)
+def setupPhotoShopDatabase(conn):
+	createTables(conn)
 	print("Created PhotoShop Tables")
 
-	createConstraints(cursor)
+	createConstraints(conn)
 	print("Created Constraints")
 
-def createTables(cursor):
-	createPhotoTable(cursor)
-	createLandScapeTable(cursor)
-	createLocationTable(cursor)
-	createAbstractTable(cursor)
-	createModelsTable(cursor)
-	createModelTable(cursor)
-	createPhotographerTable(cursor)
-	createInfluencesTable(cursor)
-	createTransactionTable(cursor)
-	createCustomerTable(cursor)
+def createTables(conn):
+	createPhotoTable(conn)
+	createLandScapeTable(conn)
+	createLocationTable(conn)
+	createAbstractTable(conn)
+	createModelsTable(conn)
+	createModelTable(conn)
+	createPhotographerTable(conn)
+	createInfluencesTable(conn)
+	createTransactionTable(conn)
+	createCustomerTable(conn)
 
 
-def createPhotoTable(cursor):
+def createPhotoTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Photo` (
-		`PhotoID` INT UNSIGNED AUTO_INCREMENT,
-  		`Speed` VARCHAR(45) NULL,
-  		`Film` VARCHAR(45) NULL,
-  		`F-Stop` VARCHAR(10) NULL,
-  		`Color/B&W` VARCHAR(10) NULL,
-		`Resolution` VARCHAR(25) NULL,
+		`PhotoID` INT UNSIGNED,
+  		`Speed` VARCHAR(45),
+  		`Film` VARCHAR(45),
+  		`F-Stop` VARCHAR(10),
+  		`Color/B&W` VARCHAR(10),
+		`Resolution` VARCHAR(25),
   		`Price` FLOAT UNSIGNED,
-  		`Date` DATE NULL,
-  		`TransID` INT UNSIGNED NOT NULL UNIQUE,
-		`PName` VARCHAR(25) NOT NULL UNIQUE,
-		`PBDate` DATE NOT NULL UNIQUE,
+  		`Date` DATE,
+  		`TransID` INT UNSIGNED NULL,
+		`PName` VARCHAR(25) NULL,
+		`PBDate` DATE NULL,
   		PRIMARY KEY (`PhotoID`)
 	)
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotoTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createLandScapeTable(cursor):
+def createLandScapeTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Landscape` (
 		`PhotoID` INT UNSIGNED,
-		`Place` VARCHAR(45) NULL UNIQUE,
-		`Country` VARCHAR(45) NULL UNIQUE,
+		`Place` VARCHAR(45) NULL,
+		`Country` VARCHAR(45) NULL,
 		PRIMARY KEY (`PhotoID`)
 	) 
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createLandscapeTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createLocationTable(cursor):
+def createLocationTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Location` (
 		`Place` VARCHAR(45),
   		`Country` VARCHAR(45),
@@ -69,12 +75,15 @@ def createLocationTable(cursor):
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createLocationTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createAbstractTable(cursor):
+def createAbstractTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Abstract` (
 		`PhotoID` INT UNSIGNED,
 		`Comment` Text NULL,
@@ -83,29 +92,35 @@ def createAbstractTable(cursor):
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createAbstractTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createModelsTable(cursor):
+def createModelsTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Models` (
 		`PhotoID` INT UNSIGNED,
-		`MName` VARCHAR(25) UNIQUE,
-		`MBDate` DATE UNIQUE,
-		`Agency` VARCHAR(45) NULL,
+		`MName` VARCHAR(25),
+		`MBDate` DATE,
+		`Agency` VARCHAR(45),
 		PRIMARY KEY (`PhotoID`, `MName`, `MBDate`)
 	)
 	ENGINE=InnoDB;
 	"""
 
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createModelsTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createModelTable(cursor):
+def createModelTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Model` (
 		`MName` VARCHAR(25),
   		`MBDate` DATE,
@@ -116,12 +131,15 @@ def createModelTable(cursor):
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createModelTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createPhotographerTable(cursor):
+def createPhotographerTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Photographer` (
 		`PName` VARCHAR(25),
   		`PBDate` DATE,
@@ -133,77 +151,89 @@ def createPhotographerTable(cursor):
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotographerTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createInfluencesTable(cursor):
+def createInfluencesTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Influences` (
-		`EPName` VARCHAR(25) UNIQUE,
-  		`EPBDate` DATE UNIQUE,
-		`RPName` VARCHAR(25) UNIQUE,
-  		`RPBDate` DATE UNIQUE,
+		`EPName` VARCHAR(25),
+  		`EPBDate` DATE,
+		`RPName` VARCHAR(25),
+  		`RPBDate` DATE,
   		PRIMARY KEY (`EPName`, `EPBDate`, `RPName`, `RPBDate`)
 	)
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createInfuencesTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createTransactionTable(cursor):
+def createTransactionTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Transaction` (
 		`TransID` INT UNSIGNED,
-  		`TDate` DATE NOT NULL,
-  		`CardNo` INT UNSIGNED NOT NULL,
- 		`CardType` VARCHAR(25) NOT NULL,
-  		`CardExpDate` DATE NOT NULL,
-  		`TotalAmount` FLOAT UNSIGNED NOT NULL,
-  		`LoginName` VARCHAR(25) NOT NULL UNIQUE,
+  		`TDate` DATE,
+  		`CardNo` INT UNSIGNED,
+ 		`CardType` VARCHAR(25),
+  		`CardExpDate` DATE,
+  		`TotalAmount` FLOAT UNSIGNED,
+  		`LoginName` VARCHAR(25),
   		PRIMARY KEY (`TransID`)
 	)
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createTransactionTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createCustomerTable(cursor):
+def createCustomerTable(conn):
 	query = """CREATE TABLE IF NOT EXISTS `Customer` (
-		`LoginName` VARCHAR(25) NOT NULL,
-  		`Password` VARCHAR(25) NOT NULL,
-  		`CName` VARCHAR(25) NOT NULL,
-  		`CType` VARCHAR(45) NULL,
-  		`BillingAddress` TEXT NOT NULL,
-  		`Str1` VARCHAR(45) NULL,
-  		`Str2` VARCHAR(45) NULL,
-  		`City` VARCHAR(45) NULL,
-  		`State` CHAR(2) NULL,
-  		`Zip` VARCHAR(12) NULL,
+		`LoginName` VARCHAR(25),
+  		`Password` VARCHAR(25),
+  		`CName` VARCHAR(25),
+  		`CType` VARCHAR(45),
+  		`BillingAddress` TEXT,
+  		`Str1` VARCHAR(45),
+  		`Str2` VARCHAR(45),
+  		`City` VARCHAR(45),
+  		`State` CHAR(2),
+  		`Zip` VARCHAR(12),
   		PRIMARY KEY (`LoginName`)
 	)
 	ENGINE=InnoDB;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createCustomerTable Failed")
 		print(e)
+	finally:
+		cursor.close()
 	
-def createConstraints(cursor):
-	createPhotoConstraints(cursor) 
-	createLocationConstraints(cursor) 
-	createModelConstraints(cursor) 
-	createPhotographerConstraints(cursor)
-	createTransactionConstraints(cursor) 
-	createCustomerConstraints(cursor) 
+def createConstraints(conn):
+	createPhotoConstraints(conn) 
+	createLocationConstraints(conn) 
+	createModelConstraints(conn) 
+	createPhotographerConstraints(conn)
+	createTransactionConstraints(conn) 
+	createCustomerConstraints(conn) 
 
-def createPhotoConstraints(cursor):
+def createPhotoConstraints(conn):
 	query = """
 		ALTER TABLE Photo
 		ADD CONSTRAINT FK_PhotoID_Landscape FOREIGN KEY (PhotoID) REFERENCES Landscape(PhotoID) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -212,12 +242,15 @@ def createPhotoConstraints(cursor):
 	"""
 
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotoConstraints Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createLocationConstraints(cursor):
+def createLocationConstraints(conn):
 	query = """
 		ALTER TABLE Location
 		ADD CONSTRAINT FK_Place_Landscape FOREIGN KEY (Place) REFERENCES Landscape(Place) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -225,12 +258,15 @@ def createLocationConstraints(cursor):
 	"""
 
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotoConstraints Failed")
 		print(e)
+	finally:
+		cursor.close()
 
-def createModelConstraints(cursor):
+def createModelConstraints(conn):
 	query = """
 		ALTER TABLE Model
 		ADD CONSTRAINT FK_MName_Models FOREIGN KEY (MName) REFERENCES Models(MName) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -238,13 +274,16 @@ def createModelConstraints(cursor):
 	"""
 
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotoConstraints Failed")
 		print(e)
+	finally:
+		cursor.close()
 
 
-def createPhotographerConstraints(cursor):
+def createPhotographerConstraints(conn):
 	query = """
 		ALTER TABLE Photographer
 		ADD CONSTRAINT FK_PName_Photo FOREIGN KEY (PName) REFERENCES Photo(PName) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -257,35 +296,44 @@ def createPhotographerConstraints(cursor):
 	"""
 	
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotoConstraints Failed")
 		print(e)
+	finally:
+		cursor.close()
 
 
-def createTransactionConstraints(cursor):
+def createTransactionConstraints(conn):
 	query = """
 		ALTER TABLE Transaction
-		ADD CONSTRAINT FK_TransID_Photo FOREIGN KEY (TransID) REFERENCES Photo(TransID) ON DELETE SET NULL ON UPDATE CASCADE;
+		ADD CONSTRAINT FK_TransID_Photo FOREIGN KEY (TransID) REFERENCES Photo(TransID) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotoConstraints Failed")
 		print(e)
+	finally:
+		cursor.close()
 
 
 
-def createCustomerConstraints(cursor):
+def createCustomerConstraints(conn):
 	query = """
 		ALTER TABLE Customer
 		ADD CONSTRAINT FK_LoginName_Transaction FOREIGN KEY (LoginName) REFERENCES Transaction(LoginName) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
 	try:
+		cursor = conn.cursor()
 		cursor.execute(query)
 	except Error as e:
 		print("createPhotoConstraints Failed")
 		print(e)
+	finally:
+		cursor.close()
 
 
 def SetupDatabase():
@@ -302,14 +350,12 @@ def SetupDatabase():
 			print("Database Connection Success")
 		else:
 			print("Database Connection Failed")
-		
-		cursor = conn.cursor()
-		setupPhotoShopDatabase(cursor)
+
+		setupPhotoShopDatabase(conn)
 		print("Created PhotoShop Database")
 	except Error as error:
 		print(error)
 	finally:
-		cursor.close()
 		conn.close()
 
 def main():

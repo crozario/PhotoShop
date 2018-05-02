@@ -16,7 +16,7 @@ def createTables(cursor):
 	createModelsTable(cursor)
 	createModelTable(cursor)
 	createPhotographerTable(cursor)
-	createInfuencesTable(cursor)
+	createInfluencesTable(cursor)
 	createTransactionTable(cursor)
 	createCustomerTable(cursor)
 
@@ -26,7 +26,7 @@ def createPhotoTable(cursor):
 		`PhotoID` INT UNSIGNED AUTO_INCREMENT,
   		`Speed` VARCHAR(45) NULL,
   		`Film` VARCHAR(45) NULL,
-  		`F-Stop` VARCHAR(12) NULL,
+  		`F-Stop` VARCHAR(10) NULL,
   		`Color/B&W` VARCHAR(10) NULL,
 		`Resolution` VARCHAR(25) NULL,
   		`Price` FLOAT UNSIGNED,
@@ -38,7 +38,11 @@ def createPhotoTable(cursor):
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotoTable Failed")
+		print(e)
 
 def createLandScapeTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Landscape` (
@@ -49,7 +53,11 @@ def createLandScapeTable(cursor):
 	) 
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createLandscapeTable Failed")
+		print(e)
 
 def createLocationTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Location` (
@@ -60,7 +68,11 @@ def createLocationTable(cursor):
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createLocationTable Failed")
+		print(e)
 
 def createAbstractTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Abstract` (
@@ -70,7 +82,11 @@ def createAbstractTable(cursor):
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createAbstractTable Failed")
+		print(e)
 
 def createModelsTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Models` (
@@ -83,7 +99,11 @@ def createModelsTable(cursor):
 	ENGINE=InnoDB;
 	"""
 
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createModelsTable Failed")
+		print(e)
 
 def createModelTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Model` (
@@ -95,7 +115,11 @@ def createModelTable(cursor):
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createModelTable Failed")
+		print(e)
 
 def createPhotographerTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Photographer` (
@@ -108,9 +132,13 @@ def createPhotographerTable(cursor):
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotographerTable Failed")
+		print(e)
 
-def createInfuencesTable(cursor):
+def createInfluencesTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Influences` (
 		`EPName` VARCHAR(25) UNIQUE,
   		`EPBDate` DATE UNIQUE,
@@ -120,22 +148,30 @@ def createInfuencesTable(cursor):
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createInfuencesTable Failed")
+		print(e)
 
 def createTransactionTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Transaction` (
-		`TransID` INT UNSIGNED AUTO_INCREMENT,
+		`TransID` INT UNSIGNED,
   		`TDate` DATE NOT NULL,
   		`CardNo` INT UNSIGNED NOT NULL,
  		`CardType` VARCHAR(25) NOT NULL,
   		`CardExpDate` DATE NOT NULL,
-  		`TotalAmount` INT UNSIGNED NOT NULL,
+  		`TotalAmount` FLOAT UNSIGNED NOT NULL,
   		`LoginName` VARCHAR(25) NOT NULL UNIQUE,
   		PRIMARY KEY (`TransID`)
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createTransactionTable Failed")
+		print(e)
 
 def createCustomerTable(cursor):
 	query = """CREATE TABLE IF NOT EXISTS `Customer` (
@@ -153,7 +189,11 @@ def createCustomerTable(cursor):
 	)
 	ENGINE=InnoDB;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createCustomerTable Failed")
+		print(e)
 	
 def createConstraints(cursor):
 	createPhotoConstraints(cursor) 
@@ -171,7 +211,11 @@ def createPhotoConstraints(cursor):
 		ADD CONSTRAINT FK_PhotoID_Models FOREIGN KEY (PhotoID) REFERENCES Models(PhotoID) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
 
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotoConstraints Failed")
+		print(e)
 
 def createLocationConstraints(cursor):
 	query = """
@@ -180,7 +224,11 @@ def createLocationConstraints(cursor):
 		ADD CONSTRAINT FK_Country_Landscape FOREIGN KEY (Country) REFERENCES Landscape(Country) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
 
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotoConstraints Failed")
+		print(e)
 
 def createModelConstraints(cursor):
 	query = """
@@ -189,7 +237,11 @@ def createModelConstraints(cursor):
 		ADD CONSTRAINT FK_MBDate_Models FOREIGN KEY (MBDate) REFERENCES Models(MBDate) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
 
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotoConstraints Failed")
+		print(e)
 
 
 def createPhotographerConstraints(cursor):
@@ -199,20 +251,28 @@ def createPhotographerConstraints(cursor):
 		ADD CONSTRAINT FK_PBDate_Photo FOREIGN KEY (PBDate) REFERENCES Photo(PBDate) ON DELETE CASCADE ON UPDATE CASCADE,
 		ADD CONSTRAINT FK_EPName_Influences FOREIGN KEY (PName) REFERENCES Influences(EPName) ON DELETE CASCADE ON UPDATE CASCADE,
 		ADD CONSTRAINT FK_EPBDate_Influences FOREIGN KEY (PBDate) REFERENCES Influences(EPBDate) ON DELETE CASCADE ON UPDATE CASCADE,
-		ADD CONSTRAINT FK_RPName_Influences FOREIGN KEY (PName) REFERENCES Influences(RPName) ON DELETE CASCADE ON UPDATE CASCADE
+		ADD CONSTRAINT FK_RPName_Influences FOREIGN KEY (PName) REFERENCES Influences(RPName) ON DELETE CASCADE ON UPDATE CASCADE,
 		ADD CONSTRAINT FK_RPBDate_Influences FOREIGN KEY (PBDate) REFERENCES Influences(RPBDate) ON DELETE CASCADE ON UPDATE CASCADE;
 
 	"""
 	
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotoConstraints Failed")
+		print(e)
 
 
 def createTransactionConstraints(cursor):
 	query = """
 		ALTER TABLE Transaction
-		ADD CONSTRAINT FK_TransID_Photo FOREIGN KEY (TransID) REFERENCES Photo(TransID) ON DELETE CASCADE ON UPDATE CASCADE;
+		ADD CONSTRAINT FK_TransID_Photo FOREIGN KEY (TransID) REFERENCES Photo(TransID) ON DELETE SET NULL ON UPDATE CASCADE;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotoConstraints Failed")
+		print(e)
 
 
 
@@ -221,7 +281,11 @@ def createCustomerConstraints(cursor):
 		ALTER TABLE Customer
 		ADD CONSTRAINT FK_LoginName_Transaction FOREIGN KEY (LoginName) REFERENCES Transaction(LoginName) ON DELETE CASCADE ON UPDATE CASCADE;
 	"""
-	cursor.execute(query)
+	try:
+		cursor.execute(query)
+	except Error as e:
+		print("createPhotoConstraints Failed")
+		print(e)
 
 
 def SetupDatabase():

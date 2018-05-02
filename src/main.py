@@ -1,9 +1,11 @@
-import photoshop_database as qd
+import photoshop_database as pd
 
 logged_in = False
 login_name = ""
 quit = False
 count = 0
+db = pd.PhotoShopDatabase()
+
 
 class MenuItem():
     def __init__(self, num, item):
@@ -15,12 +17,14 @@ class MenuItem():
 
 
 class CustomerMenu():
-    list_customers_that_spent_more_than_hundred = MenuItem(1, "List Customers who spent more than $100")
-    list_customers_who_bought_all_portraits_with_model = MenuItem(2, "List Customers who bought portraits with specific model")
+    list_customers = MenuItem(1, "List customers")
+    list_customers_that_spent_more_than_hundred = MenuItem(1, "List customers who spent more than $100")
+    list_customers_who_bought_all_portraits_with_model = MenuItem(2, "List customers who bought portraits with specific model")
     go_back = MenuItem(3, "Go Back")
     quit_application = MenuItem(4, "Quit Application")
 
     def print_menu(self):
+        self.list_customers.print_item()
         self.list_customers_that_spent_more_than_hundred.print_item()
         self.list_customers_who_bought_all_portraits_with_model.print_item()
         self.go_back.print_item()
@@ -28,14 +32,16 @@ class CustomerMenu():
 
 
 class PhotographerMenu():
-    list_influenced_photographers_in_usa = MenuItem(1, "List photographers incluenced in US")
-    list_photographers_only_took_portrait = MenuItem(2, "List photographers only took portrait photos")
-    update_photographer_name_of_photo = MenuItem(3, "Update photographer name of photo")
-    rank_photographer_by_total_photo_cost = MenuItem(4, "Rank photographers by total prices of photos taken")
+    list_photographers = MenuItem(1, "List photographers")
+    list_influenced_photographers_in_usa = MenuItem(2, "List photographers influenced in US")
+    list_photographers_only_took_portrait = MenuItem(3, "List photographers only took portrait photos")
+    update_photographer_name_of_photo = MenuItem(4, "Update photographer name of photo")
+    rank_photographer_by_total_photo_cost = MenuItem(5, "Rank photographers by total prices of photos taken")
     go_back = MenuItem(5, "Go Back")
     quit_application = MenuItem(6, "Quit Application")
 
     def print_menu(self):
+        self.list_photographers.print_item()
         self.list_influenced_photographers_in_usa.print_item()
         self.list_photographers_only_took_portrait.print_item()
         self.update_photographer_name_of_photo.print_item()
@@ -53,11 +59,13 @@ class TransactionsMenu():
         self.quit_application.print_item()
 
 class ModelMenu():
-    list_models_who_modeled_all_photos_for_photographer = MenuItem(1, "List models who modeled in all photos taken by photographer")
-    go_back = MenuItem(2, "Go Back")
-    quit_application = MenuItem(3, "Quit Application")
+    list_models = MenuItem(1, "List model names")
+    list_models_who_modeled_all_photos_for_photographer = MenuItem(2, "List models who modeled in all photos taken by photographer")
+    go_back = MenuItem(3, "Go Back")
+    quit_application = MenuItem(4, "Quit Application")
 
     def print_menu(self):
+        self.list_models.print_item()
         self.list_models_who_modeled_all_photos_for_photographer.print_item()
         self.go_back.print_item()
         self.quit_application.print_item()
@@ -118,6 +126,7 @@ class MainMenu():
         self.photographer_info.print_item()
         self.transaction_info.print_item()
         self.model_info.print_item()
+        self.customer_info.print_item()
         self.compute_sales.print_item()
         self.quit_application.print_item()
 
@@ -181,26 +190,21 @@ def menu():
                 break
             print_separator()
             print("*IN PHOTO INFO MENU*")
-            photo_menu.print_menu()
-            stdin = get_input()
-
-            if photo_menu.go_back.num == stdin:
-                continue
-            elif photo_menu.quit_application.num == stdin:
-                quit = True
 
             while quit == False:
                 photo_menu.print_menu()
                 stdin = get_input()          
 
                 if photo_menu.list_all_photos.num == stdin:
-                    pass
+                    db.list_all_photos()
                 elif photo_menu.list_photos_bought.num == stdin:
-                    pass
+                    db.list_photos_bought()
                 elif photo_menu.list_photos_not_bought.num  == stdin:
-                    pass
+                    db.list_photos_not_bought()
                 elif photo_menu.delete_photo.num == stdin:
-                    break
+                    print("What is the PhotoID")
+                    photo_id = int(input())
+                    db.delete_photo(photo_id)
                 elif photo_menu.go_back.num == stdin:
                     break
                 elif photo_menu.quit_application.num == stdin:
@@ -213,19 +217,14 @@ def menu():
                 break
             print_separator()
             print("*IN PHOTOGRAPHER INFO MENU*")
-            photographer_menu.print_menu()
-            stdin = get_input()
-
-            if photographer_menu.go_back.num == stdin:
-                continue
-            elif photographer_menu.quit_application.num == stdin:
-                quit = True
 
             while quit == False:
                 photographer_menu.print_menu()
                 stdin = get_input()          
-
-                if photographer_menu.list_influenced_photographers_in_usa.num == stdin:
+                if photographer_menu.list_photographers.num == stdin:
+                    db.list_photographers()
+                elif photographer_menu.list_influenced_photographers_in_usa.num == stdin:
+                    # stdin = input()
                     pass
                 elif photographer_menu.list_photographers_only_took_portrait.num == stdin:
                     pass
@@ -245,13 +244,6 @@ def menu():
                 break
             print_separator()
             print("*IN TRANSACTION INFO MENU*")
-            transaction_menu.print_menu()
-            stdin = get_input()
-
-            if transaction_menu.go_back.num == stdin:
-                continue
-            elif transaction_menu.quit_application.num == stdin:
-                quit = True
 
             while quit == False:
                 transaction_menu.print_menu()
@@ -271,18 +263,13 @@ def menu():
                 break
             print_separator()
             print("*IN MODEL INFO MENU*")
-            model_menu.print_menu()
-            stdin = get_input()
-
-            if model_menu.go_back.num == stdin:
-                continue
-            elif model_menu.quit_application.num == stdin:
-                quit = True
 
             while quit == False:
                 model_menu.print_menu()
-                stdin = get_input()          
+                stdin = get_input()
 
+                if model_menu.list_models.num == stdin:
+                    db.list_models()
                 if model_menu.list_models_who_modeled_all_photos_for_photographer.num == stdin:
                     pass
                 elif model_menu.go_back.num == stdin:
@@ -298,19 +285,13 @@ def menu():
                 break
             print_separator()
             print("*IN CUSTOMER INFO MENU*")
-            customer_menu.print_menu()
-            stdin = get_input()
-
-            if customer_menu.go_back.num == stdin:
-                continue
-            elif customer_menu.quit_application.num == stdin:
-                quit = True
 
             while quit == False:
                 customer_menu.print_menu()
                 stdin = get_input()          
-
-                if customer_menu.list_customers_that_spent_more_than_hundred.num == stdin:
+                if customer_menu.list_customers.num == stdin:
+                    db.list_customers()
+                elif customer_menu.list_customers_that_spent_more_than_hundred.num == stdin:
                     pass
                 elif customer_menu.list_customers_who_bought_all_portraits_with_model.num == stdin:
                     pass
@@ -326,14 +307,6 @@ def menu():
                 break
             print_separator()
             print("*IN COMPUTE SALES MENU*")
-            compute_sales_menu.print_menu()
-
-            stdin = get_input()
-
-            if compute_sales_menu.go_back.num == stdin:
-                continue
-            elif compute_sales_menu.quit_application.num == stdin:
-                quit = True
 
             while quit == False:
                 compute_sales_menu.print_menu()           
@@ -361,14 +334,14 @@ def menu():
 
 def main():
 
-    conn = qd.PhotoShopDatabase()
+    
 
     menu()
     
     print_separator()
     print("Goodbye")
 
-    conn.disconnect()
+    db.disconnect()
           
 if __name__ == "__main__":
     main()

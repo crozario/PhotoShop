@@ -86,12 +86,12 @@ class PhotoShopDatabase():
 
         self.execute_query(query, args)
     
-    def insert_photographer(self, pname, pbdate, pbio, paddress, color_bw, pnationality):
+    def insert_photographer(self, pname, pbdate, pbio, paddress, pnationality):
         
-        query = """INSERT INTO Photographer(PName, PBDate, PBio, PAddress, Color/B&W, PNationality)
-        VALUES(%s, %s, %s, %s, %s, %s)"""
+        query = """INSERT INTO `Photographer`(PName, PBDate, PBio, PAddress, PNationality)
+        VALUES(%s, %s, %s, %s, %s);"""
 
-        args = (pname, pbdate, pbio, paddress, color_bw, pnationality)
+        args = (pname, pbdate, pbio, paddress, pnationality)
 
         self.execute_query(query, args)
 

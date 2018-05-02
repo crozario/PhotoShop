@@ -102,7 +102,7 @@ def createPhotographerTable(cursor):
 		`PName` VARCHAR(25),
   		`PBDate` DATE,
   		`PBio` TEXT NULL,
- 		`PBAddress` TEXT NULL,
+ 		`PAddress` TEXT NULL,
  		`PNationality` VARCHAR(45) NULL,
  		 PRIMARY KEY (`PName`, `PBDate`)
 	)
@@ -199,7 +199,7 @@ def createPhotographerConstraints(cursor):
 		ADD CONSTRAINT FK_PBDate_Photo FOREIGN KEY (PBDate) REFERENCES Photo(PBDate) ON DELETE CASCADE ON UPDATE CASCADE,
 		ADD CONSTRAINT FK_EPName_Influences FOREIGN KEY (PName) REFERENCES Influences(EPName) ON DELETE CASCADE ON UPDATE CASCADE,
 		ADD CONSTRAINT FK_EPBDate_Influences FOREIGN KEY (PBDate) REFERENCES Influences(EPBDate) ON DELETE CASCADE ON UPDATE CASCADE,
-		ADD CONSTRAINT FK_RPName_Influences FOREIGN KEY (PName) REFERENCES Influences(RPName) ON DELETE CASCADE ON UPDATE CASCADE,
+		ADD CONSTRAINT FK_RPName_Influences FOREIGN KEY (PName) REFERENCES Influences(RPName) ON DELETE CASCADE ON UPDATE CASCADE
 		ADD CONSTRAINT FK_RPBDate_Influences FOREIGN KEY (PBDate) REFERENCES Influences(RPBDate) ON DELETE CASCADE ON UPDATE CASCADE;
 
 	"""
@@ -228,7 +228,7 @@ def SetupDatabase():
 
 	try:
 		#windows/mac/linux
-		conn = MySQLConnection(user='root', password='password', host='localhost', database='test')
+		conn = MySQLConnection(user='root', password='Halo2014', host='localhost', database='test')
 
 		#mac/linux
 		# db_config = read_db_config()

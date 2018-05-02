@@ -13,8 +13,29 @@ class MenuItem():
         print("{} - {}".format(self.num, self.item))
 
 
-# class PhotographerMenu():
-#     list_influenced_photographers = MenuItem(1, )
+class CustomerMenu():
+    list_customers_that_spent_more_than_hundred = MenuItem(1, "List Customers who spent more than $100")
+    list_customers_who_bought_all_portraits_with_model = MenuItem(2, "List Customers who bought portraits with specific model")
+
+    def print_menu(self):
+        self.list_customers_that_spent_more_than_hundred.print_item()
+        self.list_customers_who_bought_all_portraits_with_model.print_item()
+
+
+class PhotographerMenu():
+    list_influenced_photographers = MenuItem(1, "List photographers incluenced in US")
+    list_photographers_only_took_portrait = MenuItem(2, "List photographers only took portrait photos")
+    update_photographer_name_of_photo = MenuItem(3, "Update photographer name of photo")
+    go_back = MenuItem(4, "Go Back")
+    quit_application = MenuItem(5, "Quit Application")
+
+    def print_menu(self):
+        self.list_influenced_photographers.print_item()
+        self.list_photographers_only_took_portrait.print_item()
+        self.update_photographer_name_of_photo.print_item()
+        self.go_back.print_item()
+        self.quit_application.print_item()
+
 
 class ComputeSalesMenu():
     list_total_sales_per_customer = MenuItem(1, "List total sales per customer")
@@ -90,6 +111,7 @@ def menu():
     main_menu = MainMenu()
     photo_menu = PhotoMenu()
     compute_sales_menu = ComputeSalesMenu()
+
 
     while quit == False:
         check_logged_in()
